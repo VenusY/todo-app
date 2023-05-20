@@ -1,0 +1,236 @@
+@use "../util/functions" as f;
+@use "../util/mixins" as m;
+
+body {
+  padding: f.rem(40) 24px;
+  background: url("../images/bg-mobile-dark.jpg"), var(--clr-bg-main);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+button {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: f.rem(24);
+}
+
+.heading {
+  margin-top: f.rem(8);
+  font-size: f.rem(26);
+  font-weight: 700;
+  letter-spacing: f.rem(10);
+  text-transform: uppercase;
+  line-height: 1;
+  color: white;
+}
+
+.theme-button {
+  transition: transform 100ms linear;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.2);
+  }
+
+  &:focus-visible {
+    @include m.outline-styles;
+  }
+
+  &__moon-icon {
+    &--hidden {
+      display: none;
+    }
+  }
+}
+
+.todo-list-container {
+  font-size: f.rem(12);
+}
+
+.new-task {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  margin-bottom: f.rem(16);
+  background: var(--clr-bg-secondary);
+  border-radius: 5px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+  caret-color: var(--clr-bright-blue);
+
+  &__task {
+    width: 100%;
+    border: none;
+    background: none;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: f.rem(13);
+    color: var(--clr-font-main);
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.checkbox {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: f.rem(20);
+  height: f.rem(20);
+  margin-right: 10px;
+  background: var(--clr-font-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  &:hover,
+  &--completed {
+    background: linear-gradient(
+      to bottom right,
+      hsl(192, 100%, 67%),
+      hsl(280, 87%, 65%)
+    );
+  }
+
+  &__inner-circle {
+    display: grid;
+    place-items: center;
+    width: f.rem(18);
+    height: f.rem(18);
+    background: var(--clr-bg-secondary);
+    border-radius: 50%;
+
+    &--completed {
+      background: none;
+    }
+  }
+
+  &__check-mark {
+    display: none;
+
+    &--completed {
+      display: block;
+    }
+  }
+}
+
+.todo-list {
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+}
+
+.tasks {
+  margin-bottom: f.rem(16);
+  background: var(--clr-bg-secondary);
+  border-radius: 5px;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--clr-border);
+
+  &__text {
+    width: 100%;
+    margin-right: 10px;
+    color: var(--clr-font-main);
+    caret-color: var(--clr-bright-blue);
+
+    &:focus {
+      outline: none;
+    }
+
+    &--completed {
+      text-decoration: line-through;
+      color: var(--clr-font-secondary);
+    }
+  }
+
+  &__delete-button {
+    flex-shrink: 0;
+    width: f.rem(12);
+    height: f.rem(12);
+    margin-left: auto;
+
+    &:focus-visible {
+      @include m.outline-styles;
+      border-radius: 2px;
+    }
+  }
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  color: var(--clr-font-tertiary);
+
+  &__clear-button {
+    &:hover,
+    &:focus-visible {
+      color: var(--clr-font-hover);
+    }
+
+    &:focus-visible {
+      @include m.outline-styles;
+    }
+  }
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 20px;
+  margin-bottom: f.rem(40);
+  background: var(--clr-bg-secondary);
+  border-radius: 5px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+
+  &__filter {
+    font-size: f.rem(14);
+    font-weight: 700;
+    color: var(--clr-font-secondary);
+
+    &:not(:last-child) {
+      margin-right: f.rem(18);
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--clr-font-hover);
+    }
+
+    &:focus-visible {
+      @include m.outline-styles;
+    }
+
+    &--selected {
+      color: var(--clr-bright-blue);
+      pointer-events: none;
+    }
+  }
+}
+
+.tip {
+  font-size: f.rem(14);
+  text-align: center;
+  color: var(--clr-font-tertiary);
+}
