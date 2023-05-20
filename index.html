@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/icon-to-do-list.svg"
+    />
+
+    <title>Todo app</title>
+
+    <script src="index.js" async></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="heading">Todo</h1>
+
+        <button class="theme-button">
+          <img
+            class="theme-button__icon theme-button__sun-icon"
+            src="images/icon-sun.svg"
+            alt="Light theme"
+          />
+          <img
+            class="theme-button__icon theme-button__moon-icon theme-button__moon-icon--hidden"
+            src="images/icon-moon.svg"
+            alt="Dark theme"
+          />
+        </button>
+      </header>
+
+      <main class="todo-list-container">
+        <div class="new-task">
+          <div
+            class="checkbox new-task__checkbox"
+            role="checkbox"
+            aria-checked="false"
+            tabindex="0"
+          >
+            <div class="checkbox__inner-circle">
+              <img
+                class="checkbox__check-mark"
+                src="images/icon-check.svg"
+                alt="Check mark"
+              />
+            </div>
+          </div>
+
+          <input
+            class="new-task__task"
+            type="text"
+            placeholder="Create a new todo..."
+          />
+        </div>
+
+        <div class="todo-list">
+          <div class="tasks">
+            <!-- Todo list items will be added here with JavaScript -->
+
+            <!--
+            
+            Example task markup:
+
+            <div class="task">
+              <div
+                class="checkbox"
+                role="checkbox"
+                aria-checked="false"
+                tabindex="0"
+              >
+                <div class="checkbox__inner-circle">
+                  <img
+                    class="checkbox__check-mark"
+                    src="images/icon-check.svg"
+                    alt="Check mark"
+                  />
+                </div>
+              </div>
+
+              <p class="task__text" contenteditable="true">
+                Complete online JavaScript course
+              </p>
+
+              <button class="task__delete-button">
+                <img src="images/icon-cross.svg" alt="Delete" />
+              </button>
+            </div>
+
+            -->
+
+            <div class="bottom-section">
+              <p class="bottom-section__items-left"></p>
+
+              <button class="bottom-section__clear-button">
+                Clear Completed
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="filters">
+          <button class="filters__filter filters__filter--selected">All</button>
+          <button class="filters__filter">Active</button>
+          <button class="filters__filter">Completed</button>
+        </div>
+      </main>
+
+      <footer>
+        <p class="tip">Drag and drop to reorder list</p>
+        <p class="tip">Click to edit</p>
+      </footer>
+    </div>
+  </body>
+</html>
