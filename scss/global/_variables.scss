@@ -1,4 +1,4 @@
-:root {
+.dark {
   --clr-bg-main: hsl(235, 21%, 11%);
   --clr-bg-secondary: hsl(235, 24%, 19%);
   --clr-border: hsl(237, 14%, 26%);
@@ -7,4 +7,17 @@
   --clr-font-secondary: hsl(234, 11%, 52%);
   --clr-font-tertiary: hsl(233, 14%, 35%);
   --clr-bright-blue: hsl(220, 98%, 61%);
+  --clr-shadow: rgba(0, 0, 0, 0.25);
+}
+
+.light {
+  --clr-bg-main: hsl(0, 0%, 98%);
+  --clr-bg-secondary: white;
+  --clr-border: hsl(255, 8%, 91%);
+  --clr-font-main: hsl(235, 19%, 35%);
+  --clr-font-hover: hsl(235, 19%, 35%);
+  --clr-font-secondary: hsl(236, 9%, 61%);
+  --clr-font-tertiary: hsl(236, 9%, 61%);
+  --clr-bright-blue: hsl(220, 98%, 61%);
+  --clr-shadow: rgba(0, 0, 0, 0.1);
 }
