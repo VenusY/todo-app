@@ -37,6 +37,10 @@ header {
 }
 
 .theme-button {
+  @include m.center-content;
+  width: f.rem(26);
+  height: f.rem(26);
+  border-radius: 50%;
   transition: transform 100ms linear;
 
   &:hover,
@@ -48,10 +52,23 @@ header {
     @include m.outline-styles;
   }
 
-  &__moon-icon {
+  &__icon {
+    fill: #fff;
+    transition: fill 100ms linear;
+
     &--hidden {
       display: none;
     }
+  }
+
+  &:hover > &__sun-icon,
+  &:focus-visible > &__sun-icon {
+    fill: #ffdc3f;
+  }
+
+  &:hover > &__moon-icon,
+  &:focus-visible > &__moon-icon {
+    fill: #7393b3;
   }
 }
 
@@ -66,7 +83,7 @@ header {
   margin-bottom: f.rem(16);
   background: var(--clr-bg-secondary);
   border-radius: 5px;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 30px var(--clr-shadow);
   caret-color: var(--clr-bright-blue);
 
   &__task {
@@ -84,6 +101,7 @@ header {
 }
 
 .checkbox {
+  cursor: pointer;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -92,7 +110,6 @@ header {
   margin-right: 10px;
   background: var(--clr-font-secondary);
   border-radius: 50%;
-  cursor: pointer;
 
   &:focus-visible {
     outline: 2px solid white;
@@ -131,7 +148,7 @@ header {
 }
 
 .todo-list {
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 30px var(--clr-shadow);
 }
 
 .tasks {
@@ -146,14 +163,19 @@ header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--clr-border);
 
+  &--hidden {
+    display: none;
+  }
+
   &__text {
     width: 100%;
-    margin-right: 10px;
+    margin-right: 16px;
     color: var(--clr-font-main);
     caret-color: var(--clr-bright-blue);
 
     &:focus {
       outline: none;
+      border-bottom: 1px solid white;
     }
 
     &--completed {
@@ -162,15 +184,37 @@ header {
     }
   }
 
-  &__delete-button {
+  &__button {
     flex-shrink: 0;
-    width: f.rem(12);
-    height: f.rem(12);
+    width: f.rem(18);
+    height: f.rem(18);
     margin-left: auto;
+    border-radius: 2px;
+    transition: transform 100ms linear;
+
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.3);
+    }
 
     &:focus-visible {
       @include m.outline-styles;
-      border-radius: 2px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+
+  &__edit-button {
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__submit-button {
+    &--hidden {
+      display: none;
     }
   }
 }
@@ -183,6 +227,8 @@ header {
   color: var(--clr-font-tertiary);
 
   &__clear-button {
+    border-radius: 2px;
+
     &:hover,
     &:focus-visible {
       color: var(--clr-font-hover);
@@ -202,12 +248,13 @@ header {
   margin-bottom: f.rem(40);
   background: var(--clr-bg-secondary);
   border-radius: 5px;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 30px var(--clr-shadow);
 
   &__filter {
     font-size: f.rem(14);
     font-weight: 700;
     color: var(--clr-font-secondary);
+    border-radius: 2px;
 
     &:not(:last-child) {
       margin-right: f.rem(18);
