@@ -24,9 +24,9 @@
 
 body {
   padding: 2.5rem 24px;
-  background: url("../images/bg-mobile-dark.jpg"), var(--clr-bg-main);
+  background: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%)), var(--clr-bg-main);
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: 100% 200px;
   font-family: "Josefin Sans", sans-serif;
 }
 
