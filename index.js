@@ -186,17 +186,30 @@ function createTask(
   newTask.appendChild(deleteButton);
 
   // Add new task to DOM
-  const todoList = document.querySelector(".tasks");
+  const taskList = document.querySelector(".tasks");
   const bottomSection = document.querySelector(".bottom-section");
-  todoList.insertBefore(newTask, bottomSection);
+  taskList.insertBefore(newTask, bottomSection);
 
   // Attach event listeners to new elements
   checkbox.addEventListener("click", toggleTaskState);
   checkbox.addEventListener("keydown", toggleTaskState);
+
   textElement.addEventListener("keydown", submitEdit);
   editButton.addEventListener("click", allowEdit);
   editSubmitButton.addEventListener("click", submitEdit);
+
   deleteButton.addEventListener("click", deleteTask);
+
+  newTask.addEventListener("dragenter", allowDrop);
+  newTask.addEventListener("dragover", allowDrop);
+  newTask.addEventListener("dragstart", addDraggingClass);
+  newTask.addEventListener("dragstart", removeGhostImage);
+  newTask.addEventListener("dragover", addDropIndicator);
+  newTask.addEventListener("dragend", removeDraggingClass);
+  newTask.addEventListener("dragend", removeAllIndicators);
+  newTask.addEventListener("drop", removeDropIndicator);
+  newTask.addEventListener("drop", moveToNewPosition);
+  newTask.addEventListener("drop", updateLocalStorage);
 
   // Update items left counter
   calculateItemsLeft();
@@ -264,7 +277,7 @@ function toggleTaskState(
   }
 
   // Update completion status in existingTasks array and local storage
-  const checkboxes = Array.from(document.querySelectorAll(".task > .checkbox"));
+  const checkboxes = [...document.querySelectorAll(".task > .checkbox")];
   const taskIndex = checkboxes.indexOf(this);
 
   existingTasks[taskIndex].completionStatus === "active"
@@ -316,7 +329,7 @@ function submitEdit(
   editButton.classList.remove("task__edit-button--hidden");
   taskText.contentEditable = false;
 
-  const taskArray = Array.from(document.querySelectorAll(".task__text"));
+  const taskArray = [...document.querySelectorAll(".task__text")];
   const taskIndex = taskArray.indexOf(taskText);
   existingTasks[taskIndex].task = taskText.textContent;
   localStorage.setItem("tasks", JSON.stringify(existingTasks));
@@ -328,9 +341,7 @@ function deleteTask(
   existingTasks = JSON.parse(localStorage.getItem("tasks")) || []
 ) {
   // Remove task from local storage
-  const deleteButtons = Array.from(
-    document.querySelectorAll(".task__delete-button")
-  );
+  const deleteButtons = [...document.querySelectorAll(".task__delete-button")];
   const taskIndex = deleteButtons.indexOf(this);
 
   existingTasks.splice(taskIndex, 1);
@@ -363,7 +374,7 @@ function clearCompletedTasks(
 const clearButton = document.querySelector(".bottom-section__clear-button");
 clearButton.addEventListener("click", clearCompletedTasks);
 
-// Only display tasks with desired completion status when filter is applied
+// Only display tasks with required completion status when filter is applied
 function filterTasks() {
   // Change styling of filter buttons to display current active filter
   const filterButtons = document.querySelectorAll(".filters__filter");
@@ -406,3 +417,97 @@ const filterButtons = document.querySelectorAll(".filters__filter");
 filterButtons.forEach(filterButton =>
   filterButton.addEventListener("click", filterTasks)
 );
+
+// Drag and drop feature
+function allowDrop(e) {
+  e.preventDefault();
+}
+
+function addDraggingClass(e) {
+  this.classList.add("task--dragging");
+}
+
+function removeGhostImage(e) {
+  const img = document.createElement("img");
+  e.dataTransfer.setDragImage(img, 0, 0);
+}
+
+function removeDraggingClass(e) {
+  this.classList.remove("task--dragging");
+}
+
+function addDropIndicator(e) {
+  const target = this.previousElementSibling || this;
+  const halfHeight = halfHeightOf(e.target);
+
+  // If user is dragging over the first task in the list
+  if (target === this) {
+    // If user is dragging over top half of element
+    if (e.offsetY < halfHeight) {
+      target.classList.add("task--dragover-top");
+      target.classList.remove("task--dragover-bottom");
+    } else {
+      target.classList.add("task--dragover-bottom");
+      target.classList.remove("task--dragover-top");
+    }
+  } else {
+    if (e.offsetY < halfHeight) {
+      target.classList.add("task--dragover-bottom");
+      this.classList.remove("task--dragover-bottom");
+    } else {
+      this.classList.add("task--dragover-bottom");
+      target.classList.remove("task--dragover-bottom");
+    }
+  }
+}
+
+function removeDropIndicator(e) {
+  this.classList.remove("task--dragover-top", "task--dragover-bottom");
+}
+
+function removeAllIndicators(e) {
+  const tasks = document.querySelectorAll(".task");
+  tasks.forEach(task => {
+    task.classList.remove("task--dragover-top", "task--dragover-bottom");
+  });
+}
+
+function moveToNewPosition(e) {
+  const taskList = document.querySelector(".tasks");
+  const dragging = document.querySelector(".task--dragging");
+  const halfHeight = halfHeightOf(e.target);
+
+  if (e.offsetY < halfHeight) {
+    taskList.insertBefore(dragging, this);
+  } else {
+    this.insertAdjacentElement("afterend", dragging);
+  }
+
+  dragging.classList.remove("dragging");
+}
+
+function updateLocalStorage() {
+  const tasksInDOM = document.querySelectorAll(".task");
+  const tasksArray = [];
+
+  tasksInDOM.forEach(taskElement => {
+    const taskText = taskElement.querySelector(".task__text").textContent;
+    const completionStatus =
+      taskElement.querySelector(".checkbox").ariaChecked === "true"
+        ? "completed"
+        : "active";
+    const taskObject = { task: taskText, completionStatus: completionStatus };
+    tasksArray.push(taskObject);
+  });
+
+  localStorage.setItem("tasks", JSON.stringify(tasksArray));
+}
+
+function halfHeightOf(element) {
+  const totalBorderHeight = element.offsetHeight - element.clientHeight;
+  const heightOfItem = element.scrollHeight;
+  const totalHeight = heightOfItem + totalBorderHeight;
+  const halfHeight = totalHeight / 2;
+
+  return halfHeight;
+}

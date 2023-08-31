@@ -166,10 +166,29 @@ header {
   display: flex;
   align-items: center;
   padding: 16px 20px;
+  position: relative;
   border-bottom: 1px solid var(--clr-border);
 
   &--hidden {
     display: none;
+  }
+
+  &--dragging > &__text {
+    color: var(--clr-bright-blue);
+  }
+
+  &--dragover-top::before,
+  &--dragover-bottom::before {
+    @include m.drop-indicator;
+  }
+
+  &--dragover-top::before {
+    border-radius: 5px 5px 0 0;
+    top: 0;
+  }
+
+  &--dragover-bottom::before {
+    bottom: -2px;
   }
 
   &__text {
