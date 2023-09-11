@@ -66,12 +66,12 @@ function createTask(
   taskCompletionStatus = null,
   existingTasks = JSON.parse(localStorage.getItem("tasks")) || []
 ) {
-  // Checks to see if the function was called manually or triggered by user pressing enter
+  // IF the function was called manually OR triggered by user pressing enter
   if (!((e && e.key === "Enter") || !e)) {
     return;
   }
 
-  // If function was triggered by user adding a new task via input field
+  // IF function was triggered by user adding a new task via input field
   if (e) {
     if (!this.value) {
       return;
@@ -204,7 +204,9 @@ function createTask(
   newTask.addEventListener("dragover", allowDrop);
   newTask.addEventListener("dragstart", addDraggingClass);
   newTask.addEventListener("dragstart", removeGhostImage);
+  newTask.addEventListener("dragenter", removeIndicatorOnEnter);
   newTask.addEventListener("dragover", addDropIndicator);
+  newTask.addEventListener("dragleave", removeIndicatorOnLeave);
   newTask.addEventListener("dragend", removeDraggingClass);
   newTask.addEventListener("dragend", removeAllIndicators);
   newTask.addEventListener("drop", removeDropIndicator);
@@ -270,7 +272,7 @@ function toggleTaskState(
   innerCircle.classList.toggle("checkbox__inner-circle--completed");
   checkMark.classList.toggle("checkbox__check-mark--completed");
 
-  // If checkbox next element sibling is existing task
+  // IF checkbox next element sibling is existing task
   if (this.nextElementSibling.classList.contains("task__text")) {
     const task = this.nextElementSibling;
     task.classList.toggle("task__text--completed");
@@ -436,13 +438,65 @@ function removeDraggingClass(e) {
   this.classList.remove("task--dragging");
 }
 
+function removeIndicatorOnEnter(e) {
+  const tasks = [...document.querySelectorAll(".task")];
+  const firstTask = tasks[0];
+  const lastTask = tasks[tasks.length - 1];
+
+  if (e.target !== this) {
+    return;
+  }
+
+  // User must enter target through either left or right side
+  if (e.offsetX !== 0 && e.offsetX !== this.offsetWidth - 1) {
+    // Otherwise target must be either first or last element
+    if (this !== firstTask && this !== lastTask) {
+      return;
+    }
+    // Target must be the first element and user must enter from the top
+    else if (this === firstTask && e.offsetY !== 0) {
+      return;
+    }
+    // Target must be the last element and user must enter from the bottom
+    else if (this === lastTask && e.offsetY !== this.offsetHeight - 1) {
+      return;
+    }
+  }
+
+  if (this === firstTask) {
+    tasks.forEach((task, index) => {
+      if (index === 0) {
+        return;
+      }
+
+      task.classList.remove("task--dragover-bottom");
+    });
+  } else {
+    const currentIndex = tasks.indexOf(this);
+    const previousIndex = currentIndex - 1;
+
+    tasks.forEach((task, index) => {
+      if (index === previousIndex || index === 0) {
+        task.classList.remove("task--dragover-top");
+        return;
+      }
+
+      if (index === currentIndex) {
+        return;
+      }
+
+      task.classList.remove("task--dragover-bottom");
+    });
+  }
+}
+
 function addDropIndicator(e) {
   const target = this.previousElementSibling || this;
   const halfHeight = halfHeightOf(e.target);
 
-  // If user is dragging over the first task in the list
+  // IF user is dragging over the first task in the list
   if (target === this) {
-    // If user is dragging over top half of element
+    // IF user is dragging over top half of element
     if (e.offsetY < halfHeight) {
       target.classList.add("task--dragover-top");
       target.classList.remove("task--dragover-bottom");
@@ -453,6 +507,7 @@ function addDropIndicator(e) {
   } else {
     if (e.offsetY < halfHeight) {
       target.classList.add("task--dragover-bottom");
+      target.classList.remove("task--dragover-top");
       this.classList.remove("task--dragover-bottom");
     } else {
       this.classList.add("task--dragover-bottom");
@@ -461,11 +516,42 @@ function addDropIndicator(e) {
   }
 }
 
-function removeDropIndicator(e) {
+function removeIndicatorOnLeave(e) {
+  const tasks = [...document.querySelectorAll(".task")];
+  const firstTask = tasks[0];
+  const lastTask = tasks[tasks.length - 1];
+
+  // Target must be a .task element
+  if (e.target !== this) {
+    return;
+  }
+
+  // User must leave target through either left or right side
+  if (e.offsetX !== -1 && e.offsetX !== this.offsetWidth) {
+    // Otherwise target must be either first or last element
+    if (this !== firstTask && this !== lastTask) {
+      return;
+    }
+    // Target must be the first element and user must leave from the top
+    else if (this === firstTask && e.offsetY !== -1) {
+      return;
+    }
+    // Target must be the last element and user must leave from the bottom
+    else if (this === lastTask && !(e.offsetY >= this.offsetHeight)) {
+      return;
+    }
+  }
+
+  tasks.forEach(task => {
+    task.classList.remove("task--dragover-top", "task--dragover-bottom");
+  });
+}
+
+function removeDropIndicator() {
   this.classList.remove("task--dragover-top", "task--dragover-bottom");
 }
 
-function removeAllIndicators(e) {
+function removeAllIndicators() {
   const tasks = document.querySelectorAll(".task");
   tasks.forEach(task => {
     task.classList.remove("task--dragover-top", "task--dragover-bottom");
