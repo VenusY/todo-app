@@ -1,0 +1,16 @@
+@media (any-hover: hover) {
+  .task {
+    &__button {
+      display: none;
+    }
+
+    &:hover > &__button {
+      display: block;
+    }
+
+    &:hover > &__edit-button--hidden,
+    &:hover > &__submit-button--hidden {
+      display: none;
+    }
+  }
+}

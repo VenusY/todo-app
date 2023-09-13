@@ -2,6 +2,8 @@
 @use "../util/mixins" as m;
 
 body {
+  display: flex;
+  justify-content: center;
   padding: f.rem(40) 24px;
   background: linear-gradient(
       to bottom right,
@@ -29,6 +31,11 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: f.rem(24);
+}
+
+.container {
+  width: 100%;
+  max-width: 550px;
 }
 
 .heading {
