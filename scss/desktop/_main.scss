@@ -1,0 +1,78 @@
+@use "../util/functions" as f;
+
+@media (min-width: 650px) {
+  body {
+    padding: f.rem(68) 24px;
+    background-size: 100% 300px;
+  }
+
+  main {
+    margin-bottom: f.rem(40);
+  }
+
+  header {
+    margin-bottom: f.rem(38);
+  }
+
+  .heading {
+    margin-top: f.rem(12);
+    font-size: f.rem(40);
+    letter-spacing: f.rem(16);
+  }
+
+  .theme-button {
+    width: f.rem(30);
+    height: f.rem(30);
+  }
+
+  .todo-list-container {
+    font-size: f.rem(18);
+  }
+
+  .new-task {
+    padding: 20px 24px;
+    margin-bottom: f.rem(24);
+
+    &__task {
+      font-size: f.rem(18);
+    }
+  }
+
+  .checkbox {
+    width: f.rem(24);
+    height: f.rem(24);
+    margin-right: 20px;
+
+    &__inner-circle {
+      width: f.rem(22);
+      height: f.rem(22);
+    }
+
+    &__check-mark {
+      margin-top: f.rem(1);
+      margin-left: f.rem(1);
+    }
+  }
+
+  .task {
+    padding: 18px 24px;
+
+    &__button {
+      // border: 1px solid magenta;
+      width: f.rem(22);
+      height: f.rem(22);
+    }
+  }
+
+  .bottom-section {
+    padding: 15px 20px;
+    font-size: f.rem(14);
+  }
+
+  .filters {
+    width: fit-content;
+    padding: 0;
+    margin: 0 16px;
+    box-shadow: none;
+  }
+}

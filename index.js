@@ -597,3 +597,23 @@ function halfHeightOf(element) {
 
   return halfHeight;
 }
+
+// Change layout of filters and bottom section when the desktop version is active
+function changePageLayout() {
+  const minWidthMediaQuery = window.matchMedia("(min-width: 650px)");
+  const main = document.querySelector("main");
+  const itemsLeftCounter = document.querySelector(
+    ".bottom-section__items-left"
+  );
+  const filters = document.querySelector(".filters");
+
+  if (minWidthMediaQuery.matches) {
+    itemsLeftCounter.insertAdjacentElement("afterend", filters);
+  } else {
+    main.insertAdjacentElement("afterend", filters);
+  }
+}
+
+window.addEventListener("resize", changePageLayout);
+
+changePageLayout(); // Call function on load
