@@ -1,6 +1,12 @@
 # Todo App
 
-This is a solution to the Todo app challenge on Frontend Mentor using vanilla JS, HTML, and SCSS. It's a CRUD application that utilises the browser's built in local storage to store and manipulate tasks that are added by the user.
+This is a solution to the Todo app challenge on Frontend Mentor using vanilla JS, HTML, and SCSS. It features an edit button and a corresponding confirm edit button as an extra feature to facilitate the editing of existing tasks.
+
+It utilises the browser's built in local storage to allow CRUD operations carried out by the user to persist between sessions as long as the user does not clear the local storage.
+
+## Link to app
+
+https://venusy.github.io/todo-app/
 
 ## Table of contents
 
@@ -26,18 +32,18 @@ This is a solution to the Todo app challenge on Frontend Mentor using vanilla JS
 ### Desktop version
 
 Dark mode  
-![Dark desktop version](images/readme-images/image.png)
+![Dark desktop version](images/readme-images/dark-desktop.png)
 
 Light mode  
-![Light desktop version](images/readme-images/image-1.png)
+![Light desktop version](images/readme-images/light-desktop.png)
 
 ### Mobile version
 
 Dark mode  
-![Dark mobile version](images/readme-images/image-2.png)
+![Dark mobile version](images/readme-images/dark-mobile.png)
 
 Light mode  
-![Light mobile version](images/readme-images/image-3.png)
+![Light mobile version](images/readme-images/light-mobile.png)
 
 ## Author
 
